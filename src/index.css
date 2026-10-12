@@ -1,0 +1,105 @@
+@import "@fontsource-variable/plus-jakarta-sans";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Core brand and interface tokens */
+  --brand: #2451E6;
+  --brand-pressed: #1B3FC0;
+  --brand-soft: #EEF2FF;
+  --ink: #0F172A;
+  --ink-2: #475569;
+  --ink-3: #94A3B8;
+  --surface: #FFFFFF;
+  --canvas: #F5F6F8;
+  --line: #E6E8EC;
+  --success: #15803D;
+  --warning: #B45309;
+  --danger: #DC2626;
+
+  /* Category tile tints (8 tints in order) */
+  --tint-1: #FFF4E5;
+  --tint-2: #EAF4FF;
+  --tint-3: #EEF9F0;
+  --tint-4: #FDEFF2;
+  --tint-5: #F3EEFF;
+  --tint-6: #FFF9DB;
+  --tint-7: #E8F7F7;
+  --tint-8: #F4F1EC;
+
+  /* Elevation shadow for floating elements only */
+  --shadow-floating: 0 8px 24px rgba(15, 23, 42, 0.12);
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans Variable', system-ui, -apple-system, sans-serif;
+    background-color: var(--canvas);
+    color: var(--ink);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Tabular numbers for all prices and quantities */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Strict Typography tokens matching docs/DESIGN.md */
+.type-display {
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 700;
+}
+
+.type-title {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+}
+
+.type-subtitle {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 600;
+}
+
+.type-body {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.type-caption {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.type-label {
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Hide scrollbar for clean horizontal product rails */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

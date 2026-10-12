@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+    <rect width="600" height="600" fill="#ffffff"/>
+    <ellipse cx="300" cy="525" rx="130" ry="22" fill="#0f172a" opacity="0.08"/>
+    <defs>
+      <linearGradient id="canBody" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#1e293b"/>
+        <stop offset="25%" stop-color="#334155"/>
+        <stop offset="50%" stop-color="#1e293b"/>
+        <stop offset="75%" stop-color="#0f172a"/>
+        <stop offset="100%" stop-color="#020617"/>
+      </linearGradient>
+      <linearGradient id="canTop" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#cbd5e1"/>
+        <stop offset="50%" stop-color="#f8fafc"/>
+        <stop offset="100%" stop-color="#94a3b8"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="300" cy="115" rx="110" ry="25" fill="url(#canTop)" stroke="#64748b" stroke-width="3"/>
+    <ellipse cx="300" cy="113" rx="98" ry="20" fill="#94a3b8"/>
+    <path d="M 190 115 C 190 140, 195 480, 195 500 C 195 515, 240 525, 300 525 C 360 525, 405 515, 405 500 C 405 480, 410 140, 410 115 Z" fill="url(#canBody)"/>
+    <path d="M 194 280 Q 300 320 406 280 L 406 340 Q 300 380 194 340 Z" fill="#b45309" opacity="0.35"/>
+    <path d="M 194 330 Q 300 370 406 330 L 406 345 Q 300 385 194 345 Z" fill="#f59e0b" opacity="0.5"/>
+    <ellipse cx="300" cy="500" rx="105" ry="18" fill="none" stroke="#334155" stroke-width="2"/>
+  </svg>

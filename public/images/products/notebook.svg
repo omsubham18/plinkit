@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+    <rect width="600" height="600" fill="#ffffff"/>
+    <ellipse cx="290" cy="490" rx="160" ry="22" fill="#0f172a" opacity="0.08"/>
+    <defs>
+      <linearGradient id="kraftGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#f5e6d3"/>
+        <stop offset="100%" stop-color="#d7c2a7"/>
+      </linearGradient>
+    </defs>
+    <rect x="160" y="130" width="270" height="350" rx="12" fill="url(#kraftGrad)" stroke="#bba284" stroke-width="3"/>
+    <g fill="#64748b">
+      <ellipse cx="160" cy="150" rx="14" ry="6" stroke="#334155" stroke-width="3" fill="none"/><ellipse cx="160" cy="178" rx="14" ry="6" stroke="#334155" stroke-width="3" fill="none"/><ellipse cx="160" cy="206" rx="14" ry="6" stroke="#334155" stroke-width="3" fill="none"/><ellipse cx="160" cy="234" rx="14" ry="6" stroke="#334155" stroke-width="3" fill="none"/><ellipse cx="160" cy="262" rx="14" ry="6" stroke="#334155" stroke-width="3" fill="none"/><ellipse cx="160" cy="290" rx="14" ry="6" stroke="#334155" stroke-width="3" fill="none"/><ellipse cx="160" cy="318" rx="14" ry="6" stroke="#334155" stroke-width="3" fill="none"/><ellipse cx="160" cy="346" rx="14" ry="6" stroke="#334155" stroke-width="3" fill="none"/><ellipse cx="160" cy="374" rx="14" ry="6" stroke="#334155" stroke-width="3" fill="none"/><ellipse cx="160" cy="402" rx="14" ry="6" stroke="#334155" stroke-width="3" fill="none"/><ellipse cx="160" cy="430" rx="14" ry="6" stroke="#334155" stroke-width="3" fill="none"/><ellipse cx="160" cy="458" rx="14" ry="6" stroke="#334155" stroke-width="3" fill="none"/>
+    </g>
+    <rect x="450" y="160" width="22" height="290" rx="10" fill="#0f172a"/>
+    <polygon points="450,450 472,450 461,485" fill="#cbd5e1"/>
+  </svg>

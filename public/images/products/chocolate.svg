@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+    <rect width="600" height="600" fill="#ffffff"/>
+    <ellipse cx="300" cy="510" rx="140" ry="20" fill="#0f172a" opacity="0.08"/>
+    <defs>
+      <linearGradient id="goldFoil" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#fef08a"/>
+        <stop offset="30%" stop-color="#eab308"/>
+        <stop offset="60%" stop-color="#ca8a04"/>
+        <stop offset="100%" stop-color="#854d0e"/>
+      </linearGradient>
+      <linearGradient id="chocBar" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#451a03"/>
+        <stop offset="100%" stop-color="#290e02"/>
+      </linearGradient>
+    </defs>
+    <rect x="190" y="210" width="220" height="290" rx="8" fill="url(#goldFoil)"/>
+    <rect x="188" y="260" width="224" height="170" fill="#78350f"/>
+    <rect x="188" y="275" width="224" height="140" fill="#451a03"/>
+    <path d="M 200 210 L 200 120 L 400 120 L 400 210 Z" fill="url(#chocBar)"/>
+    <rect x="215" y="130" width="75" height="65" rx="4" fill="#582206" stroke="#290e02" stroke-width="2"/>
+    <rect x="310" y="130" width="75" height="65" rx="4" fill="#582206" stroke="#290e02" stroke-width="2"/>
+  </svg>

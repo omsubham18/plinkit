@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+    <rect width="600" height="600" fill="#ffffff"/>
+    <ellipse cx="300" cy="525" rx="120" ry="20" fill="#0f172a" opacity="0.08"/>
+    <defs>
+      <linearGradient id="silverGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#cbd5e1"/>
+        <stop offset="30%" stop-color="#f8fafc"/>
+        <stop offset="70%" stop-color="#e2e8f0"/>
+        <stop offset="100%" stop-color="#94a3b8"/>
+      </linearGradient>
+      <linearGradient id="redGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#dc2626"/>
+        <stop offset="100%" stop-color="#991b1b"/>
+      </linearGradient>
+    </defs>
+    <ellipse cx="300" cy="115" rx="95" ry="22" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2"/>
+    <path d="M 205 115 L 208 495 C 208 515, 250 525, 300 525 C 350 525, 392 515, 392 495 L 395 115 Z" fill="url(#silverGrad)"/>
+    <polygon points="208,240 393,170 394,310 208,380" fill="url(#redGrad)"/>
+    <polygon points="208,310 394,240 394,270 208,340" fill="#fbbf24"/>
+  </svg>

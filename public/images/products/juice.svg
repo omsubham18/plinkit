@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+    <rect width="600" height="600" fill="#ffffff"/>
+    <ellipse cx="300" cy="520" rx="130" ry="20" fill="#0f172a" opacity="0.08"/>
+    <defs>
+      <linearGradient id="cartonGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#fbbf24"/>
+        <stop offset="50%" stop-color="#f59e0b"/>
+        <stop offset="100%" stop-color="#d97706"/>
+      </linearGradient>
+    </defs>
+    <rect x="270" y="85" width="60" height="30" rx="5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2"/>
+    <polygon points="200,160 400,160 370,110 230,110" fill="#fef3c7"/>
+    <rect x="200" y="160" width="200" height="350" rx="6" fill="url(#cartonGrad)"/>
+    <ellipse cx="300" cy="320" rx="60" ry="70" fill="#f97316" opacity="0.75"/>
+    <ellipse cx="300" cy="315" rx="48" ry="58" fill="#ea580c" opacity="0.9"/>
+    <path d="M 285 245 C 290 230, 315 230, 320 245 Z" fill="#15803d"/>
+  </svg>
