@@ -43,13 +43,25 @@ export interface CartItem {
   qty: number;
 }
 
-export type OrderStatus =
-  | 'placed'
-  | 'accepted'
-  | 'packed'
-  | 'out_for_delivery'
-  | 'delivered'
-  | 'cancelled';
+import type { OrderStatus } from './database';
+
+export type {
+  Database,
+  Json,
+  CategoryRow,
+  ProductRow,
+  DeliveryPointRow,
+  ProfileRow,
+  SettingsRow,
+  OrderRow,
+  OrderItemRow,
+  PaymentMethod,
+  PaymentStatus,
+  PaidVia,
+  SubstitutionPref,
+  ProductRail,
+  OrderStatus,
+} from './database';
 
 export interface OrderTimelineStep {
   status: OrderStatus;
