@@ -129,7 +129,7 @@
 - Added idempotent `DROP POLICY IF EXISTS` guards to ensure safe re-execution of storage and table policies.
 
 ### Anything Left Open
-- Database migrations have NOT been applied to a remote Supabase instance because the Supabase project is not yet connected or authenticated in the environment.
+- Add `VITE_SUPABASE_ANON_KEY` and `SUPABASE_SECRET_KEY` to `.env.local` to execute Playbook Prompt 4 (adversarial security tests).
 
 ### Verification Results
 - Static SQL Review: PASS (syntax, RLS coverage on all 11 tables, search_path and grant/revoke security on all 7 functions, transaction safety, advisory lock idempotency, zero temp table OID invalidations).
@@ -141,4 +141,41 @@
 1. Inspect `supabase/migrations/` and verify the four SQL files match the specifications.
 2. Run `npm run typecheck` to confirm all TypeScript interfaces match the database schema.
 3. Run `npm run lint` and `npm run build` to confirm zero build regressions.
-4. When ready to connect Supabase: add credentials to `.env.local` and link via `npx supabase link`.
+
+## Session 3: Remote Supabase Migration Deployment
+- **Date**: 12 October 2026
+- **Status**: Completed & Verified on Remote Database
+- **Commit / State**: Commit `0020cb9` (`main` and `look-a`), Remote Supabase Project `kiqjchkdhmdqxdqomeho`
+
+### What Was Built & Deployed
+1. **Automated Migration Runner**:
+   - `scripts/push-db.mjs` and `npm run db:push` script added to `package.json` to push migrations directly via session pooler with URL encoding support.
+2. **Migration Fixes**:
+   - Fixed product seed UUIDs in `supabase/migrations/20261012100003_seed_sample_data.sql` from non-hex `p1000000-...` to standard hex `b1000000-...`.
+3. **Applied to Remote Supabase Database (`kiqjchkdhmdqxdqomeho`)**:
+   - `20261012100000_create_schema_and_tables.sql`: 11 tables (`categories`, `products`, `delivery_points`, `profiles`, `admins`, `settings`, `orders`, `order_items`, `search_misses`, `item_requests`, `client_errors`), `order_no_seq` sequence, constraints, indexes.
+   - `20261012100001_create_rls_and_storage.sql`: Row Level Security enabled on all 11 tables, public read policies, strict zero-client-write policies on orders and admins, `product-images` storage bucket, Supabase Realtime publication on `orders`.
+   - `20261012100002_create_order_and_admin_functions.sql`: All 6 transaction-safe RPC functions (`place_order`, `cancel_my_order`, `admin_set_order_status`, `admin_adjust_stock`, `admin_set_payment`, `admin_remove_order_item`) plus `is_admin()`.
+   - `20261012100003_seed_sample_data.sql`: 8 categories, 40 unbranded realistic products, 10 campus delivery points, launch settings row.
+
+### Verification Results
+- Remote Database Table Stats (`supabase inspect db table-stats`):
+  - `public.products`: 40 rows
+  - `public.categories`: 8 rows
+  - `public.delivery_points`: 10 rows
+  - `public.settings`: 1 row
+  - `public.orders`: 0 rows
+  - `public.order_items`: 0 rows
+- `npm run typecheck`: PASS (0 errors)
+- `npm run lint`: PASS (0 errors, 0 warnings)
+- `npm run build`: PASS (bundled in 7.20s)
+
+### Anything Left Open
+- Add `VITE_SUPABASE_ANON_KEY` to `.env.local` for client-side API authentication.
+- Ready to proceed to Playbook Prompt 4 (adversarial security tests).
+
+### Exact Steps for Human Verification
+1. Open Supabase Dashboard for project `kiqjchkdhmdqxdqomeho` -> **Table Editor**.
+2. Verify all 11 tables exist.
+3. Check `categories` (8 rows), `products` (40 rows), `delivery_points` (10 rows), and `settings` (1 row).
+4. Run `npm run build` locally to confirm 0 compilation errors.
