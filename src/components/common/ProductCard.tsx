@@ -77,6 +77,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <img
               src={product.image_url}
               alt={product.name}
+              width={200}
+              height={200}
+              decoding="async"
               className={cn(
                 'w-full h-full object-contain transition-opacity duration-state',
                 isOutOfStock && 'opacity-50 grayscale-20'

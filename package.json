@@ -9,7 +9,14 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "db:push": "node scripts/push-db.mjs"
+    "db:push": "node scripts/push-db.mjs",
+    "test": "node scripts/test-search.mjs",
+    "test:admin": "node scripts/test-admin.mjs",
+    "test:admin-tabs": "node scripts/test-admin-tabs.mjs",
+    "test:security": "node scripts/security-test.mjs",
+    "test:storefront": "node scripts/verify-storefront.mjs",
+    "test:telegram": "node scripts/test-notify-order.mjs",
+    "deploy": "wrangler pages deploy dist --project-name=plinkit"
   },
   "dependencies": {
     "@fontsource-variable/plus-jakarta-sans": "^5.1.0",

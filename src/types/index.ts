@@ -12,7 +12,7 @@ export interface Product {
   id: string;
   sku: string;
   category_id: string;
-  subcategory?: string;
+  subcategory?: string | null;
   name: string;
   brand: string;
   size_label: string;
@@ -20,9 +20,10 @@ export interface Product {
   price: number;
   stock_qty: number;
   max_per_order?: number;
-  image_url?: string;
-  description?: string;
-  manufacturer?: string;
+  image_url?: string | null;
+  keywords?: string[];
+  description?: string | null;
+  manufacturer?: string | null;
   country_of_origin?: string;
   rail?: 'late_night' | 'bestsellers' | 'new' | null;
   is_active: boolean;

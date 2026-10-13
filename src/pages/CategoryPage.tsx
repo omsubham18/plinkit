@@ -1,70 +1,118 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ProductCard } from '@/components/common/ProductCard';
+import { ProductSheet } from '@/components/common/ProductSheet';
 import { Chip } from '@/components/ui/Chip';
 import { CartBar } from '@/components/common/CartBar';
+import { SkeletonProductCard } from '@/components/ui/Skeletons';
+import { EmptyState } from '@/components/common/FeedbackStates';
 import { useToast } from '@/components/common/Toast';
-import { MOCK_CATEGORIES, MOCK_PRODUCTS } from '@/data/mockData';
+import { useCatalogue } from '@/lib/catalogue';
+import { useCartStore, getCartSummary } from '@/lib/cartStore';
 import { Product } from '@/types';
-import { ArrowLeft, Search } from 'lucide-react';
+import { ArrowLeft, Search, PackageOpen } from 'lucide-react';
 
 export const CategoryPage: React.FC = () => {
   const navigate = useNavigate();
   const { slug } = useParams<{ slug: string }>();
   const { showToast } = useToast();
 
-  const currentCategory =
-    MOCK_CATEGORIES.find((c) => c.slug === slug) || MOCK_CATEGORIES[0];
+  const { data: catalogue, isLoading } = useCatalogue();
+  const categories = useMemo(() => catalogue?.categories || [], [catalogue?.categories]);
+  const allProducts = useMemo(() => catalogue?.products || [], [catalogue?.products]);
+
+  const { items, increment, decrement, reconcile } = useCartStore();
 
   const [selectedSubcategory, setSelectedSubcategory] = useState('All');
-  const [cart, setCart] = useState<Record<string, number>>({
-    p1: 2,
-  });
+  const [selectedProductForSheet, setSelectedProductForSheet] = useState<Product | null>(null);
 
-  const subcategories = ['All', 'Chips', 'Noodles', 'Cookies', 'Beverages', 'Essentials'];
-
-  // In-stock items first per SPEC section 3.2
-  const sortedProducts = [...MOCK_PRODUCTS].sort((a, b) => {
-    if (a.stock_qty <= 0 && b.stock_qty > 0) return 1;
-    if (a.stock_qty > 0 && b.stock_qty <= 0) return -1;
-    return 0;
-  });
-
-  const filteredProducts =
-    selectedSubcategory === 'All'
-      ? sortedProducts
-      : sortedProducts.filter(
-          (p) =>
-            p.subcategory?.toLowerCase() === selectedSubcategory.toLowerCase() ||
-            p.name.toLowerCase().includes(selectedSubcategory.toLowerCase())
-        );
-
-  const totalItems = Object.values(cart).reduce((sum, qty) => sum + qty, 0);
-  const totalPrice = Object.entries(cart).reduce((sum, [id, qty]) => {
-    const prod = MOCK_PRODUCTS.find((p) => p.id === id);
-    return sum + (prod ? prod.price * qty : 0);
-  }, 0);
-
-  const handleAdd = (product: Product) => {
-    setCart((prev) => ({ ...prev, [product.id]: (prev[product.id] || 0) + 1 }));
-    showToast(`Added ${product.name} to cart`);
-  };
-
-  const handleIncrement = (product: Product) => {
-    setCart((prev) => ({ ...prev, [product.id]: (prev[product.id] || 0) + 1 }));
-  };
-
-  const handleDecrement = (product: Product) => {
-    setCart((prev) => {
-      const current = prev[product.id] || 0;
-      if (current <= 1) {
-        const next = { ...prev };
-        delete next[product.id];
-        return next;
+  // Reconcile cart whenever products update
+  useEffect(() => {
+    if (allProducts.length > 0) {
+      const notices = reconcile(allProducts);
+      if (notices.length > 0) {
+        showToast(notices[0]);
       }
-      return { ...prev, [product.id]: current - 1 };
+    }
+  }, [allProducts, reconcile, showToast]);
+
+  const currentCategory = useMemo(
+    () => categories.find((c) => c.slug === slug),
+    [categories, slug]
+  );
+
+  // Products belonging to this category
+  const categoryProducts = useMemo(() => {
+    if (!currentCategory) return [];
+    return allProducts.filter((p) => p.category_id === currentCategory.id);
+  }, [allProducts, currentCategory]);
+
+  // Distinct subcategories when present
+  const subcategories = useMemo(() => {
+    const subs = new Set<string>();
+    for (const p of categoryProducts) {
+      if (p.subcategory && p.subcategory.trim()) {
+        subs.add(p.subcategory.trim());
+      }
+    }
+    if (subs.size === 0) return [];
+    return ['All', ...Array.from(subs)];
+  }, [categoryProducts]);
+
+  // Reset selected subcategory if slug changes
+  useEffect(() => {
+    setSelectedSubcategory('All');
+  }, [slug]);
+
+  // Filtered by subcategory and sorted: in-stock items first
+  const displayProducts = useMemo(() => {
+    let filtered = categoryProducts;
+    if (selectedSubcategory !== 'All') {
+      filtered = filtered.filter(
+        (p) => p.subcategory?.toLowerCase() === selectedSubcategory.toLowerCase()
+      );
+    }
+
+    return [...filtered].sort((a, b) => {
+      const aInStock = a.stock_qty > 0 ? 1 : 0;
+      const bInStock = b.stock_qty > 0 ? 1 : 0;
+      if (aInStock !== bInStock) {
+        return bInStock - aInStock; // in-stock first
+      }
+      return a.name.localeCompare(b.name);
     });
-  };
+  }, [categoryProducts, selectedSubcategory]);
+
+  const { totalCount, itemsTotal } = getCartSummary(items, allProducts);
+
+  if (isLoading && categories.length === 0) {
+    return (
+      <div className="flex flex-col w-full pb-8">
+        <header className="sticky top-0 z-40 bg-surface border-b border-line px-3 py-2 flex items-center justify-between">
+          <div className="h-6 w-32 bg-line/60 rounded animate-pulse" />
+        </header>
+        <div className="grid grid-cols-2 gap-3 p-4">
+          <SkeletonProductCard />
+          <SkeletonProductCard />
+          <SkeletonProductCard />
+          <SkeletonProductCard />
+        </div>
+      </div>
+    );
+  }
+
+  if (!currentCategory) {
+    return (
+      <div className="p-4 pt-12">
+        <EmptyState
+          icon={<PackageOpen size={36} strokeWidth={1.5} className="text-ink-2" />}
+          message="Category not found."
+          actionLabel="Return to home"
+          onAction={() => navigate('/')}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col w-full pb-8">
@@ -94,47 +142,70 @@ export const CategoryPage: React.FC = () => {
         </button>
       </header>
 
-      {/* Subcategory Chips Filter Row */}
-      <div className="flex gap-2 overflow-x-auto px-4 py-3 no-scrollbar border-b border-line/60 bg-surface">
-        {subcategories.map((sub) => (
-          <Chip
-            key={sub}
-            label={sub}
-            selected={selectedSubcategory === sub}
-            onClick={() => setSelectedSubcategory(sub)}
-          />
-        ))}
-      </div>
-
-      {/* Product Grid: 2 columns from 360 px per DESIGN.md */}
-      <main className="p-4">
-        <div className="flex items-center justify-between mb-3">
-          <span className="type-caption text-ink-2 font-medium">
-            Showing {filteredProducts.length} items
-          </span>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              cartQty={cart[product.id] || 0}
-              onAdd={handleAdd}
-              onIncrement={handleIncrement}
-              onDecrement={handleDecrement}
-              onSeeSimilar={(p) => showToast(`Finding alternatives for ${p.name}`)}
-              onCapReached={showToast}
+      {/* Subcategory Chips Filter Row when present */}
+      {subcategories.length > 0 && (
+        <div className="flex gap-2 overflow-x-auto px-4 py-3 no-scrollbar border-b border-line/60 bg-surface sticky top-[57px] z-30">
+          {subcategories.map((sub) => (
+            <Chip
+              key={sub}
+              label={sub}
+              selected={selectedSubcategory === sub}
+              onClick={() => setSelectedSubcategory(sub)}
             />
           ))}
         </div>
-      </main>
+      )}
+
+      {/* Product Grid: 2 columns from 360px per DESIGN.md */}
+      <section className="p-4">
+        {displayProducts.length === 0 ? (
+          <div className="pt-8">
+            <EmptyState
+              icon={<PackageOpen size={36} strokeWidth={1.5} className="text-ink-2" />}
+              message="No products found in this category."
+              actionLabel="Explore other categories"
+              onAction={() => navigate('/')}
+            />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-3">
+            {displayProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                cartQty={items[product.id] || 0}
+                onAdd={(prod) => increment(prod, showToast)}
+                onIncrement={(prod) => increment(prod, showToast)}
+                onDecrement={(prod) => decrement(prod.id)}
+                onCapReached={showToast}
+                onClick={(prod) => setSelectedProductForSheet(prod)}
+                onSeeSimilar={(prod) => setSelectedProductForSheet(prod)}
+              />
+            ))}
+          </div>
+        )}
+      </section>
 
       {/* Floating Cart Bar */}
       <CartBar
-        totalItems={totalItems}
-        totalPrice={totalPrice}
+        totalItems={totalCount}
+        totalPrice={itemsTotal}
         onViewCart={() => navigate('/cart')}
+      />
+
+      {/* Product Sheet */}
+      <ProductSheet
+        product={selectedProductForSheet}
+        allProducts={allProducts}
+        isOpen={Boolean(selectedProductForSheet)}
+        onClose={() => setSelectedProductForSheet(null)}
+        cartQty={selectedProductForSheet ? items[selectedProductForSheet.id] || 0 : 0}
+        cartItems={items}
+        onAdd={(prod) => increment(prod, showToast)}
+        onIncrement={(prod) => increment(prod, showToast)}
+        onDecrement={(prod) => decrement(prod.id)}
+        onCapReached={showToast}
+        onSelectSimilarProduct={(simProd) => setSelectedProductForSheet(simProd)}
       />
     </div>
   );

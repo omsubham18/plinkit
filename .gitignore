@@ -30,3 +30,17 @@ dist-ssr
 
 # TypeScript build info
 *.tsbuildinfo
+
+# Local browser testing screenshots
+/screenshot_about.png
+/screenshot_account.png
+/screenshot_cart.png
+/screenshot_category.png
+/screenshot_loaded.png
+/screenshot_orders.png
+/screenshot_preview_checkout.png
+/screenshot_preview_home.png
+/screenshot_preview_loaded.png
+/screenshot_search_empty.png
+/screenshot_search_maggi.png
+/screenshot_test.png

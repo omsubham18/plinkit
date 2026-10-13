@@ -43,6 +43,9 @@ export const CategoryTile: React.FC<CategoryTileProps> = ({
           <img
             src={category.image_url}
             alt={category.name}
+            width={56}
+            height={56}
+            decoding="async"
             className="w-full h-full object-contain max-h-[56px] transition-transform duration-state group-hover:scale-105"
             loading="lazy"
           />

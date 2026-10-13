@@ -1,6 +1,9 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { AppFooter } from './AppFooter';
+import { OfflineBanner } from '@/components/common/OfflineScreen';
+import { PwaUpdatePrompt } from '@/components/common/PwaUpdatePrompt';
 
 export interface AppShellProps {
   children?: React.ReactNode;
@@ -24,7 +27,12 @@ export const AppShell: React.FC<AppShellProps> = ({
           className
         )}
       >
-        {children || <Outlet />}
+        <OfflineBanner />
+        <main className="flex-1 flex flex-col">
+          {children || <Outlet />}
+        </main>
+        <AppFooter />
+        <PwaUpdatePrompt />
       </div>
     </div>
   );

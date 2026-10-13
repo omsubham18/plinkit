@@ -1,0 +1,5 @@
+sku,category_slug,subcategory,name,brand,size_label,mrp,price,stock_qty,max_per_order,keywords,description,manufacturer,country_of_origin,rail,is_active,image_filename
+CHIP-01,chips,Potato Chips,Classic Salted Potato Chips,Crispy Farms,50 g,25,20,50,5,"chips, namkeen, salted, potato, crispy",Crispy golden potato chips sprinkled with rock salt.,Crispy Farms Foods Ltd,India,bestsellers,true,classic_chips.webp
+DRNK-01,drinks,Cold Drinks,Chilled Sparkling Cola,FizzUp,250 ml,40,35,40,6,"cola, cold drink, soda, fizz, thanda",Refreshing fizzy cola best served chilled.,FizzUp Beverages,India,late_night,true,sparkling_cola.webp
+NOOD-01,noodles,Instant Noodles,2-Minute Masala Instant Noodles,DesiTreat,70 g,15,14,60,10,"maggi, noodles, masala, snacks",Classic Indian masala noodles ready in minutes.,DesiTreat Foods,India,bestsellers,true,masala_noodles.webp
+BISC-01,biscuits,Cookies,Choco Chip Crunchy Cookies,BakeCraft,120 g,50,45,30,4,"biscuit, cookie, chocolate, meetha",Crunchy baked cookies packed with real chocolate chips.,BakeCraft Bakeries,India,new,true,choco_cookies.webp

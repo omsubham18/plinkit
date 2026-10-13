@@ -517,6 +517,9 @@ export interface Database {
         Returns: Json;
       };
     };
+    Views: Record<string, never>;
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 }
 
@@ -528,3 +531,7 @@ export type ProfileRow = Database['public']['Tables']['profiles']['Row'];
 export type SettingsRow = Database['public']['Tables']['settings']['Row'];
 export type OrderRow = Database['public']['Tables']['orders']['Row'];
 export type OrderItemRow = Database['public']['Tables']['order_items']['Row'];
+export type SearchMissRow = Database['public']['Tables']['search_misses']['Row'];
+export type SearchMissInsert = Database['public']['Tables']['search_misses']['Insert'];
+export type ItemRequestRow = Database['public']['Tables']['item_requests']['Row'];
+export type ItemRequestInsert = Database['public']['Tables']['item_requests']['Insert'];
